@@ -92,7 +92,7 @@ class Card extends Component {
 
   render() {
     const { isFlipped } = this.state;
-    const { name, height, mass, skin_color, birth_year, gender } = this.props;
+    const { name, height, mass, skinColor, birthYear, gender } = this.props;
     return (
       <StyledWrapper>
         <StyledCard
@@ -107,7 +107,7 @@ class Card extends Component {
 
           <StyledBack>
             <p>
-              <StyledBoldSpan>Born:</StyledBoldSpan> {birth_year}
+              <StyledBoldSpan>Born:</StyledBoldSpan> {birthYear}
             </p>
             <p>
               <StyledBoldSpan>Height:</StyledBoldSpan> {height} cm
@@ -119,7 +119,7 @@ class Card extends Component {
               <StyledBoldSpan>Gender:</StyledBoldSpan> {gender}
             </p>
             <p>
-              <StyledBoldSpan>Skin color:</StyledBoldSpan> {skin_color}
+              <StyledBoldSpan>Skin color:</StyledBoldSpan> {skinColor}
             </p>
           </StyledBack>
         </StyledCard>
@@ -132,8 +132,8 @@ Card.propTypes = {
   name: PropTypes.string.isRequired,
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   mass: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  skin_color: PropTypes.string.isRequired,
-  birth_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  skinColor: PropTypes.string.isRequired,
+  birthYear: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
   gender: PropTypes.string.isRequired,
 };
