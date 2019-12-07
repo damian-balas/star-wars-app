@@ -1,5 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
+import GlobalStyle from './theme/GlobalStyle';
 
-const App = () => <div>Star Wars</div>;
+import Header from './components/Header/Header';
+
+class App extends Component {
+  state = {};
+
+  render() {
+    return (
+      <>
+        <GlobalStyle />
+        <Header />
+      </>
+    );
+  }
+}
 
 export default App;
