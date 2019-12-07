@@ -20,6 +20,7 @@ const GlobalStyle = createGlobalStyle`
     background: #121216;
     font-family: "Montserrat";
     line-height: 1.4;
+    overflow-x: hidden;
   }
 
   button {
