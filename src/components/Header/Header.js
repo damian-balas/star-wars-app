@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import backgroundImage from '../../assets/images/bg.jpg';
 
 const StyledHeader = styled.header`
-  height: 65rem;
+  min-height: 65rem;
   padding: 3rem;
   display: flex;
+
   flex-direction: column;
   background: linear-gradient(
       to bottom,
@@ -13,7 +14,6 @@ const StyledHeader = styled.header`
       rgba(18, 18, 22, 1)
     ),
     url(${backgroundImage}) bottom / cover;
-  position: relative;
 `;
 
 const StyledSubheader = styled.h2`
@@ -45,6 +45,13 @@ const StyledButtonLink = styled.a`
   text-align: center;
   margin: 12rem auto;
   box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.3);
+  transition: 0.3s ease;
+  outline: none;
+  :hover,
+  :focus {
+    transform: translateY(-0.5rem);
+    background: #fc6260;
+  }
 `;
 
 const Header = () => (

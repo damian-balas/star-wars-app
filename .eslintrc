@@ -5,6 +5,8 @@
     "document": true
   },
   "rules": {
+    "camelcase": 1,
+    "react/no-unused-state": 1,
     "react/state-in-constructor": 0,
     "react/jsx-filename-extension": [
       1,

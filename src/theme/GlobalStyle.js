@@ -10,7 +10,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
-  
+
   html {
     font-size: 62.5%;
   }
@@ -19,6 +19,8 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
     background: #121216;
     font-family: "Montserrat";
+    line-height: 1.4;
+    overflow-x: hidden;
   }
 
   button {
