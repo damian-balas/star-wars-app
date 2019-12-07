@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
-
+import PropTypes from 'prop-types';
 import cardBg from '../../assets/images/cardBg.jpg';
 
 const styledFrontAndBack = css`
@@ -28,6 +28,19 @@ const StyledFront = styled.div`
 const StyledBack = styled.div`
   ${styledFrontAndBack};
   transform: rotateY(-180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 2rem;
+
+  p:not(:first-of-type) {
+    margin-top: 1rem;
+  }
+`;
+
+const StyledBoldSpan = styled.span`
+  font-weight: 600;
+  color: #eb4d4b;
 `;
 
 const StyledCard = styled.div`
@@ -79,7 +92,7 @@ class Card extends Component {
 
   render() {
     const { isFlipped } = this.state;
-
+    const { name, height, mass, skin_color, birth_year, gender } = this.props;
     return (
       <StyledWrapper>
         <StyledCard
@@ -89,20 +102,40 @@ class Card extends Component {
           isFlipped={isFlipped}
         >
           <StyledFront>
-            <StyledName>LUKE SKYWALKER</StyledName>
+            <StyledName>{name}</StyledName>
           </StyledFront>
 
           <StyledBack>
-            <p>Born: 19BBY</p>
-            <p>Height: 172</p>
-            <p>Weight: 77</p>
-            <p>Specie: Human</p>
-            <p>Language: Galactic Basic</p>
+            <p>
+              <StyledBoldSpan>Born:</StyledBoldSpan> {birth_year}
+            </p>
+            <p>
+              <StyledBoldSpan>Height:</StyledBoldSpan> {height} cm
+            </p>
+            <p>
+              <StyledBoldSpan>Weight:</StyledBoldSpan> {mass} kg
+            </p>
+            <p>
+              <StyledBoldSpan>Gender:</StyledBoldSpan> {gender}
+            </p>
+            <p>
+              <StyledBoldSpan>Skin color:</StyledBoldSpan> {skin_color}
+            </p>
           </StyledBack>
         </StyledCard>
       </StyledWrapper>
     );
   }
 }
+
+Card.propTypes = {
+  name: PropTypes.string.isRequired,
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  mass: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  skin_color: PropTypes.string.isRequired,
+  birth_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
+  gender: PropTypes.string.isRequired,
+};
 
 export default Card;
