@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import GlobalStyle from './theme/GlobalStyle';
 
 import Header from './components/Header/Header';
-import Card from './components/Card/Card';
+import CardGrid from './components/CardGrid/CardGrid';
 
 class App extends Component {
   state = {};
@@ -12,7 +12,7 @@ class App extends Component {
       <>
         <GlobalStyle />
         <Header />
-        <Card />
+        <CardGrid />
       </>
     );
   }
