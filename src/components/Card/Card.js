@@ -78,6 +78,7 @@ const StyledName = styled.h3`
 const StyledWrapper = styled.div`
   position: relative;
   perspective: 120rem;
+  max-width: 68.5rem;
 `;
 
 const StyledButton = styled.button`

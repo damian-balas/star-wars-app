@@ -6,15 +6,15 @@ This app allows you to learn something new about Star Wars characters. You can a
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine
+These instructions will get you a copy of the project up and running on your local machine.
 
 ## Setup
 
-Clone this repo to your desktop
+Clone this repo to your desktop.
 
     git clone git@github.com:damian-balas/star-wars-app.git
 
-Go to it's root directory
+Go to it's root directory.
 
     cd star-wars-app
 
@@ -22,9 +22,15 @@ Run npm install to install all dependencies.
 
     npm install
 
-Once the dependencies are installed, you can run npm start to start the application. You will then be able to access it at localhost:3000
+Once the dependencies are installed, you can run npm start to start the application. You will then be able to access it at localhost:3000.
 
     npm start
+
+## Build
+
+To build this app for production run npm run build.
+
+    npm run build
 
 ## Technologies
 

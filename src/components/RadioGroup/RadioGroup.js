@@ -51,6 +51,7 @@ const StyledLabel = styled.label`
   align-items: center;
   font-weight: 600;
   color: #fff;
+  cursor: pointer;
 `;
 
 const StyledInput = styled.input`
