@@ -20,7 +20,7 @@ const StyledMain = styled.main`
 const StyledCardGrid = styled.div`
   display: grid;
   grid-gap: 3rem;
-  max-width: 120rem;
+  max-width: 140rem;
   margin: 0 auto;
   animation: ${fadeIn} 0.3s ease-out;
   grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
@@ -29,24 +29,37 @@ const StyledCardGrid = styled.div`
 const StyledHeading = styled.h2`
   color: #fff;
   font-size: 4rem;
-  margin: 5rem 0 3rem;
+  max-width: 140rem;
+  margin: 5rem auto 3rem;
 `;
 
-const CardGrid = ({ charactersArray, heading }) => (
+const CardGrid = ({
+  charactersArray,
+  heading,
+  handleFavButtonClicked,
+  favCharacterUrls,
+}) => (
   <StyledMain>
-    {charactersArray.length !== 0 && <StyledHeading>{heading}</StyledHeading>}
+    {charactersArray.length !== 0 ? (
+      <StyledHeading>{heading}</StyledHeading>
+    ) : (
+      <StyledHeading>There is nothing in here...</StyledHeading>
+    )}
     <StyledCardGrid>
-      {charactersArray &&
+      {charactersArray.length !== 0 &&
         charactersArray.map(
-          ({ name, height, mass, skin_color, birth_year, gender, url }) => (
+          ({ id, name, height, mass, skin_color, birth_year, gender, url }) => (
             <Card
-              key={url}
+              key={id}
               name={name}
               height={height}
               mass={mass}
               skinColor={skin_color}
               birthYear={birth_year}
               gender={gender}
+              url={url}
+              handleFavButtonClicked={handleFavButtonClicked}
+              isFav={favCharacterUrls.includes(url)}
             />
           ),
         )}
@@ -57,6 +70,8 @@ const CardGrid = ({ charactersArray, heading }) => (
 CardGrid.propTypes = {
   charactersArray: PropTypes.arrayOf(PropTypes.object).isRequired,
   heading: PropTypes.string.isRequired,
+  handleFavButtonClicked: PropTypes.func.isRequired,
+  favCharacterUrls: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default CardGrid;
