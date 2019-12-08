@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import uuid from 'uuid/v4';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import GlobalStyle from './theme/GlobalStyle';
 import Header from './components/Header/Header';
@@ -8,6 +9,12 @@ import CardGrid from './components/CardGrid/CardGrid';
 import Pagination from './components/Pagination/Pagination';
 import Spinner from './components/Spinner/Spinner';
 import RadioGroup from './components/RadioGroup/RadioGroup';
+
+const StyledErrorMessage = styled.h3`
+  color: #fff;
+  font-size: 3rem;
+  padding: 2rem 3rem;
+`;
 
 class App extends Component {
   state = {
@@ -17,30 +24,38 @@ class App extends Component {
     isLoading: true,
     favCharacters: [],
     displayFavs: false,
+    errorMessage: '',
   };
 
   async componentDidMount() {
     const { baseUrl } = this.props;
+    try {
+      const response = await axios.get(`${baseUrl}`);
+      const {
+        data,
+        data: { results },
+      } = response;
 
-    const response = await axios.get(`${baseUrl}`);
-    const {
-      data,
-      data: { results },
-    } = response;
+      const pagesCount = Math.ceil(data.count / 10);
+      const pageURLs = [...Array(pagesCount).keys()].map(
+        number => `${baseUrl}/?page=${number + 1}`,
+      );
 
-    const pagesCount = Math.ceil(data.count / 10);
-    const pageURLs = [...Array(pagesCount).keys()].map(
-      number => `${baseUrl}/?page=${number + 1}`,
-    );
-
-    this.setState({
-      characters: results.map(char => ({
-        ...char,
-        id: uuid(),
-      })),
-      pageURLs,
-      isLoading: false,
-    });
+      this.setState({
+        characters: results.map(char => ({
+          ...char,
+          id: uuid(),
+        })),
+        pageURLs,
+        isLoading: false,
+        errorMessage: '',
+      });
+    } catch (error) {
+      this.setState({
+        errorMessage: error.message,
+        isLoading: false,
+      });
+    }
   }
 
   addCharacterToFav = characterObj => {
@@ -68,21 +83,28 @@ class App extends Component {
   };
 
   getNewCharacters = async (url, page) => {
-    const { isLoading } = this.state;
-
-    if (!isLoading) {
+    const { isLoading, errorMessage } = this.state;
+    try {
+      if (!isLoading && !errorMessage) {
+        this.setState({
+          isLoading: true,
+        });
+        const response = await axios.get(`${url}`);
+        const characters = response.data.results.map(char => ({
+          ...char,
+          id: uuid(),
+        }));
+        this.setState({
+          characters,
+          page,
+          isLoading: false,
+          errorMessage: '',
+        });
+      }
+    } catch (error) {
       this.setState({
-        isLoading: true,
-      });
-      const response = await axios.get(`${url}`);
-      const characters = response.data.results.map(char => ({
-        ...char,
-        id: uuid(),
-      }));
-      this.setState({
-        characters,
-        page,
         isLoading: false,
+        errorMessage: error.message,
       });
     }
   };
@@ -101,6 +123,7 @@ class App extends Component {
       page,
       favCharacters,
       displayFavs,
+      errorMessage,
     } = this.state;
     const favCharacterUrls = favCharacters.map(character => character.url);
     return (
@@ -108,30 +131,33 @@ class App extends Component {
         <GlobalStyle />
         <Header />
         <RadioGroup handleDisplayFavs={this.handleDisplayFavs} />
-
-        {displayFavs ? (
-          <CardGrid
-            handleFavButtonClicked={this.handleFavButtonClicked}
-            heading="Favorite characters"
-            charactersArray={favCharacters}
-            favCharacterUrls={favCharacterUrls}
-          />
-        ) : (
-          <>
-            <Pagination
-              isLoading={isLoading}
-              pageURLs={pageURLs}
-              getNewCharacters={this.getNewCharacters}
-              page={page}
-            />
+        {errorMessage && (
+          <StyledErrorMessage>{errorMessage}</StyledErrorMessage>
+        )}
+        {!errorMessage &&
+          (displayFavs ? (
             <CardGrid
               handleFavButtonClicked={this.handleFavButtonClicked}
-              heading="Star Wars characters"
-              charactersArray={characters}
+              heading="Favorite characters"
+              charactersArray={favCharacters}
               favCharacterUrls={favCharacterUrls}
             />
-          </>
-        )}
+          ) : (
+            <>
+              <Pagination
+                isLoading={isLoading}
+                pageURLs={pageURLs}
+                getNewCharacters={this.getNewCharacters}
+                page={page}
+              />
+              <CardGrid
+                handleFavButtonClicked={this.handleFavButtonClicked}
+                heading="Star Wars characters"
+                charactersArray={characters}
+                favCharacterUrls={favCharacterUrls}
+              />
+            </>
+          ))}
 
         {isLoading && <Spinner />}
       </>
