@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
+import uuid from 'uuid/v4';
 import PropTypes from 'prop-types';
 import cardBg from '../../assets/images/cardBg.jpg';
 
@@ -18,6 +19,8 @@ const styledFrontAndBack = css`
 
 const StyledFront = styled.div`
   ${styledFrontAndBack};
+  display: flex;
+  flex-direction: column;
   z-index: 2;
   transform: rotateY(0deg);
   background: linear-gradient(310deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)),
@@ -77,22 +80,83 @@ const StyledWrapper = styled.div`
   perspective: 120rem;
 `;
 
+const StyledButton = styled.button`
+  padding: 1rem 2rem;
+  border: none;
+  background: ${({ isFav }) => (isFav ? '#fff' : '#eb4d4b;')};
+  color: ${({ isFav }) => (isFav ? '#eb4d4b' : '#fff;')};
+  margin-top: auto;
+  align-self: flex-start;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  outline: none;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: transform 0.3s ease;
+  box-shadow: 0px 10px 30px -10px rgba(255, 255, 255, 0.3);
+
+  :hover,
+  :focus {
+    transform: translateY(-0.5rem);
+  }
+`;
+
 class Card extends Component {
   state = {
     isFlipped: false,
   };
 
   handleFlip = event => {
-    if (event.keyCode === 13 || event.keyCode === undefined) {
+    if (
+      event.target.type !== 'button' &&
+      (event.keyCode === 13 || !event.keyCode)
+    ) {
       this.setState(prevState => ({
         isFlipped: !prevState.isFlipped,
       }));
     }
   };
 
+  handleClick = () => {
+    const {
+      handleFavButtonClicked,
+      name,
+      height,
+      mass,
+      skinColor,
+      birthYear,
+      gender,
+      url,
+      isFav,
+    } = this.props;
+
+    handleFavButtonClicked(
+      {
+        id: uuid(),
+        name,
+        height,
+        mass,
+        skin_color: skinColor,
+        birth_year: birthYear,
+        url,
+        gender,
+      },
+      isFav,
+    );
+  };
+
   render() {
     const { isFlipped } = this.state;
-    const { name, height, mass, skinColor, birthYear, gender } = this.props;
+    const {
+      name,
+      height,
+      mass,
+      skinColor,
+      birthYear,
+      gender,
+      isFav,
+    } = this.props;
     return (
       <StyledWrapper>
         <StyledCard
@@ -103,6 +167,13 @@ class Card extends Component {
         >
           <StyledFront>
             <StyledName>{name}</StyledName>
+            <StyledButton
+              isFav={isFav}
+              onClick={this.handleClick}
+              type="button"
+            >
+              {!isFav ? 'ADD TO FAVS' : 'REMOVE'}
+            </StyledButton>
           </StyledFront>
 
           <StyledBack>
@@ -136,6 +207,9 @@ Card.propTypes = {
   birthYear: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
   gender: PropTypes.string.isRequired,
+  handleFavButtonClicked: PropTypes.func.isRequired,
+  url: PropTypes.string.isRequired,
+  isFav: PropTypes.bool.isRequired,
 };
 
 export default Card;
