@@ -2,6 +2,7 @@
   "name": "star-wars-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://damian-balas.github.io/star-wars-app",
   "dependencies": {
     "axios": "^0.19.0",
     "prop-types": "^15.7.2",
@@ -13,7 +14,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
@@ -35,6 +38,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "gh-pages": "^2.0.1",
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1"
