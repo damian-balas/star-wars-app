@@ -4,6 +4,8 @@
 
 This app allows you to learn something new about Star Wars characters. You can add cards with informations about them to favorites.
 
+[Live demo](https://damian-balas.github.io/star-wars-app/)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine.
