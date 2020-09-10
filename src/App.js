@@ -170,7 +170,7 @@ App.propTypes = {
 };
 
 App.defaultProps = {
-  baseUrl: 'https://swapi.co/api/people',
+  baseUrl: 'https://swapi.dev/api/people',
 };
 
 export default App;
