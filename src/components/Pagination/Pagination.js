@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -39,30 +39,39 @@ const StyledPagination = styled.div`
   padding: 30px;
 `;
 
-const Pagination = ({ count, setPage, isLoading, page }) => {
-  const handleClick = pageNumber => {
-    setPage(pageNumber);
-  };
-  const pagesCount = Math.ceil(count / 10);
-  const pageURLs = [...Array(pagesCount).keys()].map(
-    number => `/?page=${number + 1}`,
-  );
-  return (
-    <StyledPagination>
-      {pageURLs.length &&
-        pageURLs.map((url, index) => (
-          <StyledButton
-            disabled={isLoading || index + 1 === page}
-            key={url}
-            type="button"
-            onClick={() => handleClick(index + 1, url)}
-          >
-            {index + 1}
-          </StyledButton>
-        ))}
-    </StyledPagination>
-  );
-};
+const Pagination = memo(
+  ({ count, setPage, isLoading, page }) => {
+    const handleClick = pageNumber => {
+      document.body.style.height = '200vh';
+      setPage(pageNumber);
+    };
+    const pagesCount = Math.ceil(count / 10);
+    const pageURLs = [...Array(pagesCount).keys()].map(
+      number => `/?page=${number + 1}`,
+    );
+    return (
+      <StyledPagination>
+        {pageURLs.length &&
+          pageURLs.map((url, index) => (
+            <StyledButton
+              disabled={isLoading || index + 1 === page}
+              key={url}
+              type="button"
+              onClick={() => handleClick(index + 1, url)}
+            >
+              {index + 1}
+            </StyledButton>
+          ))}
+      </StyledPagination>
+    );
+  },
+  (prevProps, props) => {
+    if (!props.isLoading) {
+      return prevProps.count === props.count && props.isLoading;
+    }
+    return true;
+  },
+);
 
 Pagination.propTypes = {
   count: PropTypes.number.isRequired,

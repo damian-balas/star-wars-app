@@ -38,16 +38,17 @@ const CardGrid = ({
   heading,
   handleFavButtonClicked,
   favCharacterUrls,
+  loading,
 }) => (
   <StyledMain>
     {charactersArray.length !== 0 ? (
-      <StyledHeading>{heading}</StyledHeading>
+      <StyledHeading>{!loading && heading}</StyledHeading>
     ) : (
-      <StyledHeading>There is nothing in here...</StyledHeading>
+      <StyledHeading>{!loading && 'There is nothing in here...'}</StyledHeading>
     )}
-    <StyledCardGrid>
-      {charactersArray.length !== 0 &&
-        charactersArray.map(
+    {charactersArray.length !== 0 && (
+      <StyledCardGrid>
+        {charactersArray.map(
           ({ name, height, mass, skin_color, birth_year, gender, url }) => (
             <Card
               key={name}
@@ -63,11 +64,13 @@ const CardGrid = ({
             />
           ),
         )}
-    </StyledCardGrid>
+      </StyledCardGrid>
+    )}
   </StyledMain>
 );
 
 CardGrid.propTypes = {
+  loading: PropTypes.bool.isRequired,
   charactersArray: PropTypes.arrayOf(PropTypes.object).isRequired,
   heading: PropTypes.string.isRequired,
   handleFavButtonClicked: PropTypes.func.isRequired,
