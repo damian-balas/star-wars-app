@@ -34,9 +34,11 @@ const App = () => {
   const { data, error } = useSWR(`/?page=${page}`, fetcher);
 
   useEffect(() => {
-    const favCharactersFromLS = JSON.parse(window.localStorage.favCharacters);
-    if (favCharactersFromLS.length) {
-      setFavCharacters(favCharactersFromLS);
+    if (window.localStorage?.favCharacters) {
+      const favCharactersFromLS = JSON.parse(window.localStorage.favCharacters);
+      if (favCharactersFromLS.length) {
+        setFavCharacters(favCharactersFromLS);
+      }
     }
 
     window.addEventListener('keydown', disableScroll);
