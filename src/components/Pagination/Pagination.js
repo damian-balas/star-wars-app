@@ -39,30 +39,34 @@ const StyledPagination = styled.div`
   padding: 30px;
 `;
 
-const Pagination = ({ pageURLs, getNewCharacters, isLoading, page }) => {
-  const handleClick = (pageNumber, url) => {
-    getNewCharacters(url, pageNumber);
+const Pagination = ({ count, setPage, isLoading, page }) => {
+  const handleClick = pageNumber => {
+    setPage(pageNumber);
   };
-
+  const pagesCount = Math.ceil(count / 10);
+  const pageURLs = [...Array(pagesCount).keys()].map(
+    number => `/?page=${number + 1}`,
+  );
   return (
     <StyledPagination>
-      {pageURLs.map((url, index) => (
-        <StyledButton
-          disabled={isLoading || index + 1 === page}
-          key={url}
-          type="button"
-          onClick={() => handleClick(index + 1, url)}
-        >
-          {index + 1}
-        </StyledButton>
-      ))}
+      {pageURLs.length &&
+        pageURLs.map((url, index) => (
+          <StyledButton
+            disabled={isLoading || index + 1 === page}
+            key={url}
+            type="button"
+            onClick={() => handleClick(index + 1, url)}
+          >
+            {index + 1}
+          </StyledButton>
+        ))}
     </StyledPagination>
   );
 };
 
 Pagination.propTypes = {
-  pageURLs: PropTypes.arrayOf(PropTypes.string).isRequired,
-  getNewCharacters: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
+  setPage: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   page: PropTypes.number.isRequired,
 };
