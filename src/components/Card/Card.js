@@ -111,7 +111,7 @@ class Card extends Component {
   handleFlip = event => {
     if (
       event.target.type !== 'button' &&
-      (event.keyCode === 13 || !event.keyCode)
+      (event.keyCode === 32 || event.keyCode === 13 || !event.keyCode)
     ) {
       this.setState(prevState => ({
         isFlipped: !prevState.isFlipped,
