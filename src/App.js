@@ -99,6 +99,7 @@ const App = () => {
               page={page}
             />
             <CardGrid
+              loading={!data}
               handleFavButtonClicked={handleFavButtonClicked}
               heading="Star Wars characters"
               charactersArray={data?.results || []}
