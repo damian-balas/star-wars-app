@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const ripple = keyframes`
@@ -33,10 +33,25 @@ const StyledWrapper = styled.div`
   background: rgba(18, 18, 22, 0.95);
 `;
 
-const Spinner = () => (
-  <StyledWrapper>
-    <StyledSpinner />
-  </StyledWrapper>
-);
+const Spinner = () => {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const sleep = setTimeout(() => {
+      setShow(true);
+    }, 200);
+
+    return () => {
+      clearTimeout(sleep);
+    };
+  }, []);
+  if (show) {
+    return (
+      <StyledWrapper>
+        <StyledSpinner />
+      </StyledWrapper>
+    );
+  }
+  return null;
+};
 
 export default Spinner;

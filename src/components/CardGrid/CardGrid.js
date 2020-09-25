@@ -48,9 +48,9 @@ const CardGrid = ({
     <StyledCardGrid>
       {charactersArray.length !== 0 &&
         charactersArray.map(
-          ({ id, name, height, mass, skin_color, birth_year, gender, url }) => (
+          ({ name, height, mass, skin_color, birth_year, gender, url }) => (
             <Card
-              key={id}
+              key={name}
               name={name}
               height={height}
               mass={mass}
